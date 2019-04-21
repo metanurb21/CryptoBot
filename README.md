@@ -1,6 +1,6 @@
 [TOC]
 
-### CryptoBots
+##### CryptoBots
 
 Discord 3 (so far) in 1 Crypto Bot.
 
@@ -36,7 +36,7 @@ Discord 3 (so far) in 1 Crypto Bot.
   
   Example: !oiv 101 100 0.1 YOUR_IV_RESULT 0.0015 call bs
 
-#### Heroku Installation
+##### Heroku Installation
 
 Download or clone this repo.
 In a terminal, CD to this directory.
@@ -56,7 +56,7 @@ Using the Heroku CLI, login and create a new application.
 This source has to be run as a worker Dyno, not a web Dyno.
 The code in the provided Procfile should handle this automatically.
 
-#### Discord Installation
+##### Discord Installation
 
 In a web browser, navigate to https://discordapp.com/developers and login.
 Create a new application & follow the instructions to complete this.
