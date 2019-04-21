@@ -32,11 +32,15 @@ Download or clone this repo.
 In a terminal, CD to this directory.
 
 Using the Heroku CLI, login and create a new application.
+
 `git init`
+
 `heroku git:remote -a your-app-name`
+
 `git add .`
 
 `git commit -am "make it better"`
+
 `git push heroku master`
 
 This source has to be run as a worker Dyno, not a web Dyno.
