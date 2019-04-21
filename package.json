@@ -1,0 +1,24 @@
+{
+  "name": "gs9-d-bot",
+  "engines": {
+    "node": "8.2.1"
+  },
+  "version": "1.0.0",
+  "description": "Gann9 square generator for crypto target positions, long/short",
+  "main": "app.js",
+  "dependencies": {
+    "black-scholes": "^1.1.0",
+    "discord.js": "^11.4.2",
+    "get-json": "^1.0.1",
+    "implied-volatility": "^1.0.0",
+    "numeral": "^2.0.6",
+    "puppeteer": "^0.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Stewart",
+  "license": "ISC"
+}
