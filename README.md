@@ -1,6 +1,6 @@
 [TOC]
 
-#### CryptoBots
+### CryptoBots
 
 Discord 3 (so far) in 1 Crypto Bot.
 
