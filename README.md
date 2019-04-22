@@ -10,7 +10,9 @@ Discord 3 (so far) in 1 Crypto Bot.
 
 **Bitmex current largest Buy and Sell wall.**
 
-- Discord usage: !bitbook
+- Discord usage: !bitbook `<symbol>`
+
+Defaults to XBT
 
 **Options implied Volatility.**
 

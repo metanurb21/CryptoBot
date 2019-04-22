@@ -30,9 +30,12 @@ function processCommand(receivedMessage) {
   let doHelp = false;
   let doBs = false;
   let help;
+  let bitbookSymbol;
 
   if (arguments === "help" || arguments.length === 0) {
-    if (botID === "GS9") {
+    doHelp = true;
+    if (botID == "GS9") {
+      ltp = 5152;
       help =
         "Gann9 Bot by DaveStewart#0241 V1.0\n" +
         "Lets say you have a LTP price at 5152.\n" +
@@ -52,9 +55,11 @@ function processCommand(receivedMessage) {
         "Targets are 99.95% of resistance and 100.05% of support.\n" +
         "So Target for Buy = resistance * 0.9995. \n" +
         "Target for Sell = support * 1.0005.";
-    } else if (botID === "bitbook") {
-      help = "?";
-    } else if (botID === "oiv") {
+    } else if (botID == "bitbook") {
+      help =
+        "Usage: !bitbook <symbol>\n" +
+        "Available symbols on Bitmex: XBT, ADA, BCH, ETH, LTC, EOS, TRX, XRP";
+    } else if (botID == "oiv") {
       help =
         "Determine implied volatility of options based on their prices\n" +
         "Expected Cost - The market price of the option \n" +
@@ -68,10 +73,8 @@ function processCommand(receivedMessage) {
         "To verify your result using Black-Scholes Model\n" +
         "Example: !oiv 101 100 0.1 YOUR_IV_RESULT 0.0015 call bs";
     }
-    ltp = 5152;
-    doHelp = true;
   } else {
-    if (botID === "oiv") {
+    if (botID == "oiv") {
       // Black Scholes
       if (arguments[arguments.length - 1] === "bs") {
         arguments.pop();
@@ -94,7 +97,7 @@ function processCommand(receivedMessage) {
   //console.log("Command received: " + botID);
   //console.log("Arguments: " + arguments); // There may not be any arguments
 
-  if (botID === "GS9") {
+  if (botID == "GS9") {
     var squareAry = [
       24,
       23,
@@ -371,8 +374,36 @@ function processCommand(receivedMessage) {
       });
       await browser.close();
     })();
-  } else if (botID === "bitbook") {
-    getJSON("https://www.bitmex.com/api/v1/orderBook/L2?symbol=XBTUSD&depth=0")
+  } else if (botID == "bitbook") {
+    var isUSD = true;
+    if (arguments.length === 0) {
+      bitbookSymbol = "XBTUSD";
+    } else {
+      bitbookSymbol = arguments[0].toUpperCase();
+      switch (bitbookSymbol) {
+        case "XBT":
+          bitbookSymbol = "XBTUSD";
+          break;
+        case "ETH":
+          bitbookSymbol = "ETHUSD";
+          break;
+        default:
+          isUSD = false;
+      }
+    }
+
+    function formatPrice(response, idx) {
+      var price = isUSD
+        ? numeral(response[idx].price).format("($0.00a)")
+        : response[idx].price + " Sats";
+      return price;
+    }
+
+    getJSON(
+      "https://www.bitmex.com/api/v1/orderBook/L2?symbol=" +
+        bitbookSymbol +
+        "&depth=0"
+    )
       .then(function(response) {
         response.sort(
           sort_by("side", {
@@ -383,17 +414,17 @@ function processCommand(receivedMessage) {
         );
 
         var resp =
-          "Bot by DaveStewart#0241 V1.0\nBitmex XBTUSD Order Book as of " +
+          "Bot by DaveStewart#0241 V1.0\nBitmex " +
+          bitbookSymbol +
+          " Order Book as of " +
           new Date() +
           "\n";
-        //var sell = false;
-        //var price;
 
         resp +=
           "Largest Buy Wall: " +
           numeral(response[0].size).format("( 0.0a)") +
           " @: " +
-          numeral(response[0].price).format("($0.00a)");
+          formatPrice(response, 0);
 
         const sIndex = response.findIndex(item => item.side === "Sell");
 
@@ -401,7 +432,7 @@ function processCommand(receivedMessage) {
           "\nLargest Sell Wall: " +
           numeral(response[sIndex].size).format("( 0.0a)") +
           " @: " +
-          numeral(response[sIndex].price).format("($0.00a)");
+          formatPrice(response, sIndex);
 
         receivedMessage.channel.send(resp);
       })
@@ -409,7 +440,7 @@ function processCommand(receivedMessage) {
         console.log(error);
         //receivedMessage.channel.send(error);
       });
-  } else if (botID === "oiv") {
+  } else if (botID == "oiv") {
     if (doHelp) {
       receivedMessage.channel.send(help);
     } else {
@@ -439,6 +470,7 @@ function processCommand(receivedMessage) {
     receivedMessage.channel.send("Did not understand command.");
   }
 }
+
 // utility functions
 function default_cmp(a, b) {
   if (a == b) return 0;
@@ -498,5 +530,5 @@ function sort_by() {
     return result;
   };
 }
-
+// Bot token is retrieved from Heroku config vars
 discord_client.login(process.env.BOT_TOKEN);
