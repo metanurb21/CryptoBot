@@ -1,5 +1,3 @@
-[TOC]
-
 #### CryptoBots
 
 Discord 3 (so far) in 1 Crypto Bot.
@@ -17,15 +15,25 @@ Defaults to XBT
 **Options implied Volatility.**
 
 - Discord usage:
+
   Expected Cost - The market price of the option
+  
   s - Current price of the underlying
+  
   k - Strike price
+  
   t - Time to experiation in years (can be decimal)
+  
   r - Anual risk-free interest rate as a decimal
+  
   CallPut - The type of option priced - "call" or "put"
+  
   Input as a list delimted with spaces
+  
   Example: !oiv 2 101 100 0.1 0.0015 call
+  
   To verify your result using Black-Scholes Model
+  
   Example: !oiv 101 100 0.1 YOUR_IV_RESULT 0.0015 call bs
 
 #### Heroku Installation
@@ -34,11 +42,15 @@ Download or clone this repo.
 In a terminal, CD to this directory.
 
 Using the Heroku CLI, login and create a new application.
+
 `git init`
+
 `heroku git:remote -a your-app-name`
+
 `git add .`
 
 `git commit -am "make it better"`
+
 `git push heroku master`
 
 This source has to be run as a worker Dyno, not a web Dyno.
